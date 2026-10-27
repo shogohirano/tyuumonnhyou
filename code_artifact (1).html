@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>牧之原特別支援学校の紹介 - 発表用原稿</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #eef2f6;
+    font-family: "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, "游ゴシック", YuGothic, sans-serif;
+    color: #111111;
+  }
+
+  /* 画面表示用のコントロールバー（印刷時は非表示） */
+  .toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: #ffffff;
+    border-bottom: 2px solid #cbd5e1;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+  .toolbar-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #334155;
+  }
+  .toolbar-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .btn {
+    background-color: #2563eb;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .btn:hover {
+    background-color: #1d4ed8;
+  }
+  .btn-outline {
+    background-color: #ffffff;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+  }
+  .btn-outline:hover {
+    background-color: #f1f5f9;
+  }
+
+  /* A4用紙表示設定 */
+  .pages-container {
+    padding: 20px 0 40px 0;
+  }
+  .page {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto 30px auto;
+    background-color: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    padding: 18mm 20mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    page-break-after: always;
+    break-after: page;
+    overflow: hidden; /* はみ出し防止 */
+  }
+
+  /* ページ番号 */
+  .page-number {
+    font-size: 22pt;
+    font-weight: bold;
+    color: #475569;
+    text-align: left;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 8px;
+  }
+
+  /* 本文エリア */
+  .content-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  /* 本文テキスト */
+  .text {
+    font-size: 32pt; /* 文字切れを防ぐ最適サイズ */
+    line-height: 2.15;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    word-break: keep-all; /* 単語の途中での不自然な改行を防止 */
+    overflow-wrap: break-word;
+    width: 100%;
+  }
+
+  /* 文節・単語ごとのまとまり */
+  .phrase {
+    display: inline-block; /* 文節をひとまとめにして不自然な泣き別れ改行を防止 */
+    white-space: nowrap;
+  }
+
+  /* ルビ（ふりがな）の設定 */
+  ruby {
+    ruby-position: over;
+  }
+  rt {
+    font-size: 16pt;
+    font-weight: 600;
+    color: #333333;
+    padding-bottom: 3px;
+  }
+
+  /* 太字・強調デザイン */
+  .highlight {
+    font-weight: bold;
+    color: #000000;
+    background: linear-gradient(transparent 65%, #fef08a 65%);
+    padding: 0 4px;
+    border-radius: 2px;
+  }
+
+  /* タイトルページ用 */
+  .title-text {
+    font-size: 38pt;
+    line-height: 2.1;
+    font-weight: bold;
+  }
+
+  /* フォントサイズ切替クラス */
+  body.size-large .text { font-size: 36pt; }
+  body.size-large rt { font-size: 18pt; }
+  body.size-small .text { font-size: 28pt; }
+  body.size-small rt { font-size: 14pt; }
+
+  /* 印刷用の設定 (@media print) */
+  @media print {
+    .toolbar {
+      display: none !important;
+    }
+    body {
+      background-color: #ffffff;
+      padding: 0;
+    }
+    .pages-container {
+      padding: 0;
+    }
+    .page {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      box-shadow: none;
+      border-radius: 0;
+      padding: 15mm 18mm;
+      page-break-after: always;
+      break-after: page;
+      box-sizing: border-box;
+    }
+    @page {
+      size: A4 portrait;
+      margin: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- 画面表示時用ツールバー -->
+  <div class="toolbar">
+    <div class="toolbar-title">🎤 牧之原特別支援学校 紹介原稿（全9ページ）</div>
+    <div class="toolbar-buttons">
+      <span style="font-size: 13px; color: #64748b; margin-right: 4px;">文字サイズ:</span>
+      <button class="btn btn-outline" onclick="changeSize('small')">標準 (28pt)</button>
+      <button class="btn btn-outline" onclick="changeSize('medium')">特大 (32pt)</button>
+      <button class="btn btn-outline" onclick="changeSize('large')">超特大 (36pt)</button>
+      <button class="btn" onclick="window.print()" style="margin-left: 10px;">🖨️ A4で印刷 / PDF保存</button>
+    </div>
+  </div>
+
+  <div class="pages-container">
+
+    <!-- 表紙 / タイトル -->
+    <div class="page">
+      <div class="page-number">タイトル</div>
+      <div class="content-container">
+        <div class="title-text">
+          <span class="phrase"><ruby>牧<rt>まき</rt>の<rt></rt>原<rt>はら</rt>特<rt>とく</rt>別<rt>べつ</rt>支<rt>し</rt>援<rt>えん</rt>学<rt>がっ</rt>校<rt>こう</rt></ruby>の</span><br>
+          <span class="phrase"><ruby>紹<rt>しょう</rt>介<rt>かい</rt></ruby></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ① ページ1 -->
+    <div class="page">
+      <div class="page-number">①</div>
+      <div class="content-container">
+        <div class="text">
+          <span class="phrase">みなさん、</span><span class="phrase">こんにちは。</span><br><br>
+          <span class="phrase">これから、</span><br>
+          <span class="phrase"><ruby>牧<rt>まき</rt>の<rt></rt>原<rt>はら</rt>特<rt>とく</rt>別<rt>べつ</rt>支<rt>し</rt>援<rt>えん</rt>学<rt>がっ</rt>校<rt>こう</rt></ruby>を</span><br>
+          <span class="phrase"><ruby>紹<rt>しょう</rt>介<rt>かい</rt></ruby>します。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ② ページ2 -->
+    <div class="page">
+      <div class="page-number">②</div>
+      <div class="content-container">
+        <div class="text">
+          <span class="phrase"><ruby>牧<rt>まき</rt>の<rt></rt>原<rt>はら</rt>特<rt>とく</rt>別<rt>べつ</rt>支<rt>し</rt>援<rt>えん</rt>学<rt>がっ</rt>校<rt>こう</rt></ruby>は、</span><br>
+          <span class="phrase"><ruby>霧<rt>きり</rt>島<rt>しま</rt>市<rt>し</rt></ruby>の</span>　<span class="phrase"><ruby>牧<rt>まき</rt>の<rt></rt>原<rt>はら</rt></ruby>に</span>　<span class="phrase">あります。</span><br><br>
+          <span class="phrase"><ruby>学<rt>がっ</rt>校<rt>こう</rt></ruby>の</span>　<span class="phrase">まわりには、</span><br>
+          <span class="phrase">たくさんの</span>　<span class="phrase"><ruby>木<rt>き</rt></ruby>や</span>　<span class="phrase"><ruby>緑<rt>みどり</rt></ruby>があり、</span><br>
+          <span class="phrase"><ruby>自<rt>じ</rt>然<rt>ぜん</rt></ruby>が</span>　<span class="phrase"><ruby>豊<rt>ゆた</rt></ruby>かな</span>　<span class="phrase"><ruby>学<rt>がっ</rt>校<rt>こう</rt></ruby>です。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ③ ページ3 -->
+    <div class="page">
+      <div class="page-number">③</div>
+      <div class="content-container">
+        <div class="text">
+          <span class="phrase"><ruby>牧<rt>まき</rt>の<rt></rt>原<rt>はら</rt>特<rt>とく</rt>別<rt>べつ</rt>支<rt>し</rt>援<rt>えん</rt>学<rt>がっ</rt>校<rt>こう</rt></ruby>には、</span><br>
+          <span class="phrase"><ruby>小<rt>しょう</rt>学<rt>がく</rt>部<rt>ぶ</rt></ruby>・</span><span class="phrase"><ruby>中<rt>ちゅう</rt>学<rt>がく</rt>部<rt>ぶ</rt></ruby>・</span><span class="phrase"><ruby>高<rt>こう</rt>等<rt>とう</rt>部<rt>ぶ</rt></ruby>が</span>　<span class="phrase">あります。</span><br><br>
+          <span class="phrase"><ruby>小<rt>しょう</rt>学<rt>がく</rt>部<rt>ぶ</rt></ruby>から</span>　<span class="phrase"><ruby>高<rt>こう</rt>等<rt>とう</rt>部<rt>ぶ</rt></ruby>まで、</span><br>
+          <span class="phrase"><ruby>合<rt>あ</rt></ruby>わせて</span>　<span class="phrase">434<ruby>人<rt>にん</rt></ruby>の</span>　<span class="phrase"><ruby>児<rt>じ</rt>童<rt>どう</rt>生<rt>せい</rt>徒<rt>と</rt></ruby>が</span><br>
+          <span class="phrase"><ruby>学<rt>がっ</rt>校<rt>こう</rt>生<rt>せい</rt>活<rt>かつ</rt></ruby>を</span>　<span class="phrase"><ruby>送<rt>おく</rt></ruby>っています。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ④ ページ4 -->
+    <div class="page">
+      <div class="page-number">④</div>
+      <div class="content-container">
+        <div class="text">
+          <span class="phrase"><ruby>学<rt>がっ</rt>校<rt>こう</rt></ruby>では、</span><br>
+          <span class="phrase"><ruby>国<rt>こく</rt>語<rt>ご</rt></ruby>や</span>　<span class="phrase"><ruby>数<rt>すう</rt>学<rt>がく</rt></ruby>、</span>　<span class="phrase"><ruby>音<rt>おん</rt>楽<rt>がく</rt></ruby>、</span>　<span class="phrase"><ruby>体<rt>たい</rt>育<rt>いく</rt></ruby>など、</span><br>
+          <span class="phrase">いろいろな</span>　<span class="phrase"><ruby>学<rt>がく</rt>習<rt>しゅう</rt></ruby>を</span>　<span class="phrase">しています。</span><br><br>
+          <span class="phrase">その<ruby>中<rt>なか</rt></ruby>の</span>　<span class="phrase"><ruby>一<rt>ひと</rt></ruby>つに、</span><br>
+          <span class="phrase">「<span class="highlight"><ruby>作<rt>さ</rt>業<rt>ぎょう</rt>学<rt>がく</rt>習<rt>しゅう</rt></ruby></span>」が</span>　<span class="phrase">あります。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑤ ページ5 -->
+    <div class="page">
+      <div class="page-number">⑤</div>
+      <div class="content-container">
+        <div class="text">
+          <span class="phrase">「<span class="highlight"><ruby>作<rt>さ</rt>業<rt>ぎょう</rt>学<rt>がく</rt>習<rt>しゅう</rt></ruby></span>」では、</span><br>
+          <span class="phrase"><ruby>友<rt>とも</rt>達<rt>だち</rt></ruby>や</span>　<span class="phrase"><ruby>先<rt>せん</rt>生<rt>せい</rt></ruby>と</span>　<span class="phrase"><ruby>協<rt>きょう</rt>力<rt>りょく</rt></ruby>して、</span><br>
+          <span class="phrase">ものを</span>　<span class="phrase"><ruby>作<rt>つく</rt></ruby>ったり、</span>　<span class="phrase"><ruby>仕<rt>し</rt>事<rt>ごと</rt></ruby>を</span>　<span class="phrase">したりします。</span><br><br>
+          <span class="phrase"><ruby>作<rt>つく</rt></ruby>ったものを</span>　<span class="phrase"><ruby>誰<rt>だれ</rt></ruby>かに</span>　<span class="phrase"><ruby>使<rt>つか</rt></ruby>ってもらうことを</span><br>
+          <span class="phrase"><ruby>目<rt>もく</rt>標<rt>ひょう</rt></ruby>に、</span>　<span class="phrase"><ruby>一<rt>いっ</rt>生<rt>しょう</rt>懸<rt>けん</rt>命<rt>めい</rt></ruby></span>　<span class="phrase"><ruby>取<rt>と</rt></ruby>り<ruby>組<rt>く</rt></ruby>んでいます。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑥ ページ6 -->
+    <div class="page">
+      <div class="page-number">⑥</div>
+      <div class="content-container">
+        <div class="text">
+          <span class="phrase">そして、</span><br>
+          <span class="phrase"><ruby>作<rt>さ</rt>業<rt>ぎょう</rt>学<rt>がく</rt>習<rt>しゅう</rt></ruby>で</span>　<span class="phrase"><ruby>作<rt>つく</rt></ruby>ったものを、</span><br>
+          <span class="phrase"><ruby>実<rt>じっ</rt>際<rt>さい</rt></ruby>に</span>　<span class="phrase"><ruby>販<rt>はん</rt>売<rt>ばい</rt></ruby>する</span>　<span class="phrase"><ruby>行<rt>ぎょう</rt>事<rt>じ</rt></ruby>が</span>　<span class="phrase">あります。</span><br><br>
+          <span class="phrase">それが、</span>　<span class="phrase">「<span class="highlight">そうじん<ruby>祭<rt>さい</rt></ruby></span>」です。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑦ ページ7 -->
+    <div class="page">
+      <div class="page-number">⑦</div>
+      <div class="content-container">
+        <div class="text">
+          <span class="phrase">そうじん<ruby>祭<rt>さい</rt></ruby>では、</span><br>
+          <span class="phrase"><ruby>自<rt>じ</rt>分<rt>ぶん</rt></ruby>たちが</span>　<span class="phrase"><ruby>作<rt>つく</rt></ruby>ったものを</span><br>
+          <span class="phrase">お<ruby>客<rt>きゃく</rt></ruby>さんに</span>　<span class="phrase"><ruby>買<rt>か</rt></ruby>ってもらいます。</span><br><br>
+          <span class="phrase">たくさんの</span>　<span class="phrase"><ruby>人<rt>ひと</rt></ruby>が</span>　<span class="phrase"><ruby>来<rt>き</rt></ruby>てくれるので、</span><br>
+          <span class="phrase">1<ruby>年<rt>ねん</rt>間<rt>かん</rt></ruby>の</span>　<span class="phrase"><ruby>中<rt>なか</rt></ruby>でも</span>　<span class="phrase"><ruby>楽<rt>たの</rt></ruby>しみな</span><br>
+          <span class="phrase"><ruby>行<rt>ぎょう</rt>事<rt>じ</rt></ruby>の</span>　<span class="phrase"><ruby>一<rt>ひと</rt></ruby>つです。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑧ ページ8 -->
+    <div class="page">
+      <div class="page-number">⑧</div>
+      <div class="content-container">
+        <div class="text">
+          <span class="phrase">みなさんも、</span><br><br>
+          <span class="phrase">ぜひ</span>　<span class="phrase"><ruby>牧<rt>まき</rt>の<rt></rt>原<rt>はら</rt>特<rt>とく</rt>別<rt>べつ</rt>支<rt>し</rt>援<rt>えん</rt>学<rt>がっ</rt>校<rt>こう</rt></ruby>に</span><br>
+          <span class="phrase"><ruby>遊<rt>あそ</rt></ruby>びに</span>　<span class="phrase"><ruby>来<rt>き</rt></ruby>てください。</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑨ ページ9 -->
+    <div class="page">
+      <div class="page-number">⑨</div>
+      <div class="content-container">
+        <div class="text">
+          <span class="phrase">これで、</span><br>
+          <span class="phrase"><ruby>牧<rt>まき</rt>の<rt></rt>原<rt>はら</rt>特<rt>とく</rt>別<rt>べつ</rt>支<rt>し</rt>援<rt>えん</rt>学<rt>がっ</rt>校<rt>こう</rt></ruby>の</span><br>
+          <span class="phrase"><ruby>紹<rt>しょう</rt>介<rt>かい</rt></ruby>を</span>　<span class="phrase"><ruby>終<rt>お</rt></ruby>わります。</span><br><br>
+          <span class="phrase">ありがとうございました。</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function changeSize(size) {
+      document.body.classList.remove('size-small', 'size-large');
+      if (size === 'small') {
+        document.body.classList.add('size-small');
+      } else if (size === 'large') {
+        document.body.classList.add('size-large');
+      }
+    }
+  </script>
+</body>
+</html>
